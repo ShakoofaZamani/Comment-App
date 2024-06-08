@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comment Display App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+        margin: 0;
+      }
+
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #00001a;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: aliceblue;
+        width: 400px;
+        height: 90%;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      form input {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgb(70, 69, 69);
+        border-radius: 7px;
+        background-color: #2f2f31;
+      }
+
+      form button {
+        padding: 7px;
+        border: none;
+        width: 100px;
+        border-radius: 5px;
+        background: #0000cc;
+        color: white;
+        cursor: pointer;
+      }
+
+      form button:hover {
+        background: #213c88;
+      }
+
+      #commentSection {
+        border-top: 1px solid #ccc;
+        padding-top: 20px;
+      }
+
+      .comment {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .comment:last-child {
+        border-bottom: none;
+      }
+
+      .comment .name {
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+
+      .comment .name img {
+        margin-right: 10px;
+      }
+
+      .remove-button {
+        margin-top: 10px;
+        padding: 5px 10px;
+        background: #292828;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .remove-button:hover {
+        background: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>
+        How can we ensure AI systems remain aligned with human values and
+        ethics?
+      </h2>
+      <form id="commentForm">
+        <div id="discussionCount">Discussion (0)</div>
+        <input type="text" id="name" placeholder="Your name" required />
+        <input
+          type="text"
+          id="comment"
+          placeholder="Write a comment"
+          required
+        />
+        <button type="submit">Post comment</button>
+      </form>
+      <div id="commentSection"></div>
+    </div>
+    <script>
+      document
+        .getElementById("commentForm")
+        .addEventListener("submit", function(event) {
+          event.preventDefault(); // Prevent the form from submitting the traditional way
+
+          // Get the values from the input fields
+          const name = document.getElementById("name").value;
+          const comment = document.getElementById("comment").value;
+
+          // Create a new comment element
+          const commentElement = document.createElement("div");
+          commentElement.classList.add("comment");
+
+          // Create the name element
+          const nameElement = document.createElement("div");
+          nameElement.classList.add("name");
+
+          // Add the name text
+          const nameText = document.createTextNode(name);
+          nameElement.appendChild(nameText);
+
+          // Create the comment text element
+          const commentTextElement = document.createElement("div");
+          commentTextElement.classList.add("text");
+          commentTextElement.textContent = comment;
+
+          // Create the remove button
+          const removeButton = document.createElement("button");
+          removeButton.classList.add("remove-button");
+          removeButton.textContent = "Remove";
+          removeButton.addEventListener("click", function() {
+            commentElement.remove();
+            updateDiscussionCount();
+          });
+
+          // Append the name, comment text, and remove button to the comment element
+          commentElement.appendChild(nameElement);
+          commentElement.appendChild(commentTextElement);
+          commentElement.appendChild(removeButton);
+
+          // Append the comment element to the comment section
+          document.getElementById("commentSection").appendChild(commentElement);
+
+          // Clear the input fields
+          document.getElementById("name").value = "";
+          document.getElementById("comment").value = "";
+
+          // Update the discussion count
+          updateDiscussionCount();
+        });
+
+      function updateDiscussionCount() {
+        const commentCount = document.getElementsByClassName("comment").length;
+        document.getElementById(
+          "discussionCount"
+        ).textContent = `Discussion (${commentCount})`;
+      }
+    </script>
+  </body>
+</html>
